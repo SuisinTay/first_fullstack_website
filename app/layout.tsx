@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "./components/theme-provider";
+import { Navbar } from "./components/Navbar";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +17,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { isAuthenticated, getUser } = getKindeServerSession();
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Navbar isAuthenticated={isAuthenticated()} user={getUser()} />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
