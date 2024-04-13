@@ -19,16 +19,16 @@ export const UserNav = ({
   image,
   name,
 }: {
-  email: string;
-  image: string;
-  name: string;
+  email?: string | null;
+  image?: string | null;
+  name?: string | null;
 }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-10 w-10 rounded-full">
           <Avatar className="h-10 w-10 rounded-full">
-            <AvatarImage src={image} alt="" />
+            {image && <AvatarImage src={image} alt="" />}
             <AvatarFallback>User</AvatarFallback>
           </Avatar>
         </Button>

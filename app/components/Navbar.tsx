@@ -2,7 +2,10 @@
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { Button } from "@/components/ui/button";
-import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
+import {
+  LoginLink,
+  RegisterLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
 import { UserNav } from "./UserNav";
 import { KindeUser } from "@kinde-oss/kinde-auth-nextjs/types";
 
@@ -11,9 +14,9 @@ export const Navbar = async ({
   user,
 }: {
   isAuthenticated: Promise<boolean>;
-  user: Promise<KindeUser | null>;
+  user: KindeUser | null;
 }) => {
-  const userInfo = JSON.parse(user?.value);
+  const fullName = user?.given_name + " " + user?.family_name;
   return (
     <nav className="border-b bg-background h-[10vh] flex items-center">
       <div className="container flex items-center justify-between">
@@ -27,9 +30,9 @@ export const Navbar = async ({
           <ThemeToggle />
           {(await isAuthenticated) ? (
             <UserNav
-              email={userInfo?.email}
-              image={userInfo?.picture}
-              name={userInfo?.given_name}
+              email={user?.email}
+              image={user?.picture}
+              name={fullName}
             />
           ) : (
             <div className="flex items-center gap-x-5">
