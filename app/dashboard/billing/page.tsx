@@ -65,7 +65,10 @@ const BillingPage = async () => {
 
     const subscriptionUrl = await getStripeSession({
       customerId: dbUser?.stripeCustomer as string,
-      domainUrl: "http://localhost:3000",
+      domainUrl:
+        process.env.NODE_ENV === "production"
+          ? (process.env.PRODUCTION_URL as string)
+          : "http://localhost:3000",
       priceId: process.env.STRIPE_PRICE_ID as string,
     });
 
@@ -76,7 +79,10 @@ const BillingPage = async () => {
     "use server";
     const session = await stripe.billingPortal.sessions.create({
       customer: data?.user.stripeCustomer as string,
-      return_url: "http://localhost:3000/dashboard",
+      return_url:
+        process.env.NODE_ENV === "production"
+          ? (process.env.PRODUCTION_URL as string)
+          : "http://localhost:3000",
     });
 
     return redirect(session.url);
