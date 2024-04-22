@@ -50,6 +50,7 @@ const BillingPage = async () => {
 
   const createSubsription = async () => {
     "use server";
+    noStore();
     const dbUser = await prisma.user.findUnique({
       where: {
         id: user?.id,
